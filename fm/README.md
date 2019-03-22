@@ -1,9 +1,9 @@
 # fm is a file monitor tool
-## depandent packages
+## dependented packages
 appPublic
 watchdog
 
-## function
+## Base on
 
 Need to setup password free ssh to all the peers before using fm
 
@@ -66,7 +66,7 @@ likes :
 
 
 "monitors" is a array contains one or more local folders will be monitored.
-each items in "monitors" should have "path" and "peers",if the file synchronize depandent by its '.ok' file, a "identified_by_ok" must set to true 
+each items in "monitors" should have "path" and "peers",if the file synchronize dependent by its '.ok' file, a "identified_by_ok" must set to true 
 
 "path" is a string to a local folder
 
