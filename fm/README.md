@@ -50,6 +50,7 @@ the configure file named by 'config.json', it contains follows:
 		}
 	]
 }
+```
 
 peers:defines all peers who will synchronize the change below the local monitored folder 
 each peer identifies by its name, and must have "host" and "user" attributes in peer definition, "port" will be add if that peer sshd using a user defined port
