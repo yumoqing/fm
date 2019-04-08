@@ -1,0 +1,23 @@
+{
+	"workers_count":300,
+	"peers":{
+			"bsppo":
+		{
+			"host":"www.bsppo.com",
+			"user":"ymq"
+		}
+	},
+	"monitors":[
+		{
+			"path":"/home/ymq/tmp",
+			"identify_by_okaa":true,
+			"modified_delay":2,
+			"peers":{
+					"bsppo":
+				{
+					"path":"/home/ymq/tst"
+				}
+			}
+		}
+	]
+}

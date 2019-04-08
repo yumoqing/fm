@@ -1,11 +1,10 @@
 # fm is a file monitor tool
 ## dependented packages
 appPublic
-watchdog
-
-## Base on
-
-Need to setup password free ssh to all the peers before using fm
+[watchdog](https://pypi.org/project/watchdog/) provide the file monitor engine
+[asyncpool](https://github.com/CaliDog/asyncpool) provide a asynchronous worker pool
+[hachiko](https://github.com/biesnecker/hachiko) provide the asynchronous API for watchdog
+[aiofile](https://github.com/Tinche/aiofiles) file support for asyncio
 
 ## function
 fm monitors one or more local folders, and sysnchronizes the changes to the defined peer(s)
