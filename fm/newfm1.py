@@ -3,7 +3,7 @@ import sys
 import asyncio
 from watchdog.observers import Observer
 from hachiko.hachiko import AIOWatchdog,AIOEventHandler
-
+from datetime import datetime
 import time
 
 
@@ -11,6 +11,10 @@ from appPublic.Singleton import SingletonDecorator
 from appPublic.folderUtils import ProgramPath
 from appPublic.jsonConfig import getConfig
 from appPublic.macAddress import getAllAddress
+
+def curdt():
+	dt = datetime.now()
+	return '%04d-%02d-%02d %02d:%02d:%02d' % (dt.year,dt.month,dt.day,dt.hour,dt.minute,dt.day)
 
 class FileEventHandler(AIOEventHandler):
 	def __init__(self,config,peers):
@@ -20,6 +24,7 @@ class FileEventHandler(AIOEventHandler):
 		self.modified_handlers = {}
 		self.myAddress = [ i[1] for i in getAllAddress() ]
 		#self.workers = Workers(self._loop)
+		print(self.myAddress)
 
 	def getTargetPath(self,path,peer):
 		p = path[len(self.config.path):]
@@ -30,6 +35,10 @@ class FileEventHandler(AIOEventHandler):
 			pconf = {}
 			pconf.update(self.peers[peer])
 			pconf.update(self.config.peers[peer])
+			if pconf['host'] in self.myAddress and pconf['path']==self.config.path:
+				print(curdt(),':',pconf['host'],
+					pconf['path'],' ignored')
+				continue
 			tpath1 = self.getTargetPath(path1,peer)
 			pconf.update({'path1':path1,'tpath1':tpath1})
 			if path2 is not None:
@@ -86,35 +95,34 @@ class FileEventHandler(AIOEventHandler):
 	@asyncio.coroutine
 	def on_moved(self, event):
 		if event.is_directory:
-			print("directory moved from {0} to {1}".format(event.src_path,event.dest_path))
+			print(curdt(),':',"directory moved from {0} to {1}".format(event.src_path,event.dest_path))
 		else:
-			print("file moved from {0} to {1}".format(event.src_path,event.dest_path))
+			print(curdt(),':',"file moved from {0} to {1}".format(event.src_path,event.dest_path))
 		self.movefile(event.src_path,event.dest_path)
 
 	@asyncio.coroutine
 	def on_created(self, event):
-		print(self.__class__,'on_create called')
 		if event.is_directory:
-			print("directory created:{0}".format(event.src_path))
+			print(curdt(),':',"directory created:{0}".format(event.src_path))
 			self.createdir(event.src_path)
 		else:
-			print("file created:{0}".format(event.src_path))
+			print(curdt(),':',"file created:{0}".format(event.src_path))
 			#self.copyfile(event.src_path)
 
 	@asyncio.coroutine
 	def on_deleted(self, event):
 		if event.is_directory:
-			print("directory deleted:{0}".format(event.src_path))
+			print(curdt(),':',"directory deleted:{0}".format(event.src_path))
 		else:
-			print("file deleted:{0}".format(event.src_path))
+			print(curdt(),':',"file deleted:{0}".format(event.src_path))
 		self.deletefile(event.src_path)
 
 	@asyncio.coroutine
 	def on_modified(self, event):
 		if event.is_directory:
-			print("directory modified:{0}".format(event.src_path))
+			print(curdt(),':',"directory modified:{0}".format(event.src_path))
 		else:
-			print("file modified:{0}".format(event.src_path))
+			print(curdt(),':',"file modified:{0}".format(event.src_path))
 			oh = self.modified_handlers.get(event.src_path,None)
 			if oh is not None:
 				oh.cancel()
@@ -148,12 +156,12 @@ EOF &""".format(sf1
 		
 	@asyncio.coroutine
 	def on_created(self,event):
-		print(self.__class__,'on_create called')
+		print(curdt(),':',self.__class__,'on_create called')
 		if event.is_directory:
-			print("directory created:{0}".format(event.src_path))
+			print(curdt(),':',"directory created:{0}".format(event.src_path))
 			self.createdir(event.src_path)
 		else:
-			print('{0} created'.format(event.src_path))
+			print(curdt(),':','{0} created'.format(event.src_path))
 			if event.src_path.lower().endswith('.ok'):
 				self.copyfile(event.src_path)
 
@@ -167,7 +175,7 @@ def watch():
 	for m in config.monitors:
 		handler = None
 		if m.get('identify_by_ok'):
-			print('using OKFileHandler......')
+			print(curdt(),':','using OKFileHandler......')
 			handler =OKFileHandler(m,config.peers)
 		else:
 			handler = FileEventHandler(m,config.peers)

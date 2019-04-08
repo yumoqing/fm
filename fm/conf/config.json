@@ -5,6 +5,10 @@
 		{
 			"host":"www.bsppo.com",
 			"user":"ymq"
+		},
+		"localhost":{
+			"host":"127.0.0.1",
+			"user":"ymq"
 		}
 	},
 	"monitors":[
@@ -16,6 +20,9 @@
 					"bsppo":
 				{
 					"path":"/home/ymq/tst"
+				},
+				"localhost":{
+					"path":"/home/ymq/tmp"
 				}
 			}
 		}
