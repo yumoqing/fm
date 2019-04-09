@@ -1,9 +1,9 @@
-# fm is a file monitor tool
+# fm is a file synchronous tools between difference host
 ## dependented packages
-appPublic
-[watchdog](https://pypi.org/project/watchdog/) provide the file monitor engine
-[hachiko](https://github.com/biesnecker/hachiko) provide the asynchronous API for watchdog
-[paramiko](https://github.com/paramiko/paramiko) python ssh2 api
+appPublic provide some bases functions for fm,
+[watchdog](https://pypi.org/project/watchdog/) is a files or folders changes monitor engine,
+[hachiko](https://github.com/biesnecker/hachiko) is the asynchronous API for watchdog
+[paramiko](https://github.com/paramiko/paramiko) is a python ssh2 api
 
 ## function
 fm monitors one or more local folders, and sysnchronizes the changes to the defined peer(s)
