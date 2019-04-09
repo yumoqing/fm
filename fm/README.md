@@ -2,9 +2,8 @@
 ## dependented packages
 appPublic
 [watchdog](https://pypi.org/project/watchdog/) provide the file monitor engine
-[asyncpool](https://github.com/CaliDog/asyncpool) provide a asynchronous worker pool
 [hachiko](https://github.com/biesnecker/hachiko) provide the asynchronous API for watchdog
-[aiofile](https://github.com/Tinche/aiofiles) file support for asyncio
+[paramiko](https://github.com/paramiko/paramiko) python ssh2 api
 
 ## function
 fm monitors one or more local folders, and sysnchronizes the changes to the defined peer(s)
@@ -30,6 +29,7 @@ the configure file named by 'config.json', it contains follows:
 		{
 			"path":"/home/someone/tmp",
 			"identify_by_ok":true,
+			"modified_delay":2,
 			"peers":{
 					"peer1": {
 						"path":"/home/someone/tst"
