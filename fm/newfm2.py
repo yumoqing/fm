@@ -151,4 +151,5 @@ def watch():
 
 
 if __name__ == "__main__":
+	print('fm version 0.2\n')
 	asyncio.get_event_loop().run_until_complete(watch())

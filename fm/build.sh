@@ -1,1 +1,1 @@
-pyinstaller -F -n fm --workpath /tmp --distpath . filemonitor.py
+pyinstaller -F -n fm-v2 --workpath /tmp --distpath . newfm2.py
