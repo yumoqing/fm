@@ -72,3 +72,12 @@ each items in "monitors" should have "path" and "peers",if the file synchronize 
 "path" is a string to a local folder
 
 "peers" indicates which peer name in the root "peers" will followed the change
+
+# Bug Fix #
+inotify watch limit reached
+
+fix it by:
+```
+su -c 524288 > /proc/sys/fs/inotify/max_user_watches
+```
+

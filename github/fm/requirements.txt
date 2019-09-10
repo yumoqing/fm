@@ -1,5 +1,5 @@
 asyncio
 watchdog
 hachiko
-pyutils
+appPublic
 paramiko
