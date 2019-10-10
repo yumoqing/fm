@@ -1,51 +1,83 @@
-# Crypto-p2p
-This module provide the data encrypt and decrypt function p2p
+# fm is a file synchronous tools between difference host
+## dependented packages
+appPublic provide some bases functions for fm,
+[watchdog](https://pypi.org/project/watchdog/) is a files or folders changes monitor engine,
+[hachiko](https://github.com/biesnecker/hachiko) is the asynchronous API for watchdog
+[paramiko](https://github.com/paramiko/paramiko) is a python ssh2 api
 
-## Public key center(pkc)
+## function
+fm monitors one or more local folders, and sysnchronizes the changes to the defined peer(s)
 
-download pkc's public key from pkc's  website and save it to file
+## configuratin
+the configure file is located at conf folder inside the fm containers folder
 
-generates ssl private key and public key, and save them to file, and upload public key to pkc on website
-
-## Crypto process
-
-### Encrypt
-
-1. Get receiver's public key from key center, if sender not has it.
-
-When a Node(A) want to send a bytes data to other node(B) , A check if it has Node B's public key, if not, it gets the Node B's public key from public key center(www.publicky.cc)
-
-2. Generate a random symmetric key, use it to encrypt the data
-
-3. encrypt the symmetric key with receiver's public key
-
-4. using sender's private key to sign encrypted data,generate a sign data
-
-5. pack it to a json data:
+the configure file named by 'config.json', it contains follows:
+```
 {
-	'sender':A,
-	"key":"encryptedkey",
-	"receiver':B,
-	'data':encypteddata,
-	'sign':signedtext
-} 
+	"peers":{
+			"peer1": {
+				"host":"www.peer1.com",
+				"user":"somone"
+			},
+			"peer2": {
+				"host":"www.peer1.com",
+				"port":40022,
+				"user":"somone"
+			}
+	},
+	"monitors":[
+		{
+			"path":"/home/someone/tmp",
+			"identify_by_ok":true,
+			"modified_delay":2,
+			"peers":{
+					"peer1": {
+						"path":"/home/someone/tst"
+					}
+			}
+		},
+		{
+			"path":"/home/someone/here",
+			"peers":{
+					"peer1": {
+						"path":"/home/someone/there"
+					},
+					"peer2": {
+						"path":"/home/someone/there"
+					}
+			}
+		}
+	]
+}
+```
 
-6. using trasnfer level function to send to json data to receiver
+peers:defines all peers who will synchronize the change below the local monitored folder 
+each peer identifies by its name, and must have "host" and "user" attributes in peer definition, "port" will be add if that peer sshd using a user defined port
 
-### Decrypt
+likes :
+```
+"peer2":{
+	"host":"11.11.11.22",
+	"user":"dummy",
+	"port":40022
+}
+```
 
-1. receiver the json data fro sender
+"peers" can defines as many peers as you need
 
-2. get sender's public key from key center, if it not has sender's public key
 
-3. using sender's public key to check the sender's sign data
+"monitors" is a array contains one or more local folders will be monitored.
+each items in "monitors" should have "path" and "peers",if the file synchronize dependent by its '.ok' file, a "identified_by_ok" must set to true 
 
-4. if sign data mismatch, discard the data, abort
+"path" is a string to a local folder
 
-5. decrypt the key using receiver's private key
+"peers" indicates which peer name in the root "peers" will followed the change
 
-6. using the decrypted  symmetric key to decryt the encrypted data
+# Bug Fix #
+inotify watch limit reached
 
-7. return the decrypted data
-
+fix it by:
+```
+su -c 524288 > /proc/sys/fs/inotify/max_user_watches
+```
 
