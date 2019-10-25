@@ -1,0 +1,40 @@
+{
+	"workers_count":300,
+	"peers":{
+		"bsppo.com": {
+			"host":"bsppo.com",
+			"user":"ymq"
+		},
+		"home.ubuntu":{
+			"host":"bsppo.com",
+			"user":"ymq",
+			"port":20022
+		}
+	},
+	"monitors":[
+		{
+			"path":"/opts/ymq/pydev",
+			"identify_by_okaa":true,
+			"ignore_files":[
+				".+~",
+				".+\\.swx",
+				".+\\.swp"
+			],
+			"ignore_dirs":[
+				"dist",
+				"__pycache__",
+				"build",
+				".+\\-info"
+			],
+			"modified_delay":2,
+			"peers":{
+				"bsppo.com": {
+					"path":"/opts/pydev"
+				},
+				"home.ubuntu": {
+					"path":"/home/ymq/pydev"
+				}
+			}
+		}
+	]
+}
